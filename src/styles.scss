@@ -41,8 +41,10 @@ h2.is-bold{
     color: white;
     font-size: 18px;
     font-weight: 600;
+    font-family: inherit;
 
     border-radius: 4px;
+    border: none;
 
     cursor: pointer;
 
@@ -66,6 +68,10 @@ h2.is-bold{
     &.btns-centered {
         justify-content: center;
     }
+
+    .align-end {
+        margin-left: auto;
+    }
 }
 
 .has-blurred-white-bg {
@@ -73,9 +79,12 @@ h2.is-bold{
     backdrop-filter: blur(20px);
 }
 
-.textbox {
+.textbox, .textarea {
     font-size: 18px;
     font-family: inherit;
+
+    margin-bottom: 20px;
+
     width: 100%;
 
     padding: 8px 10px;
@@ -100,4 +109,10 @@ h2.is-bold{
     &:focus {
         border-color: rgba($color: black, $alpha: 0.42);
     }
+}
+
+.textarea {
+    display: block;
+    resize: vertical;
+    min-height: 120px;
 }

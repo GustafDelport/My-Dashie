@@ -4,23 +4,7 @@
 
         <div class="notes-list">
 
-            <div class="note-card">
-                <div class="note-card-title">
-                    This is notes title
-                </div>
-                <div class="note-card-content">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto doloremque recusandae blanditiis nobis vel assumenda porro repellat nam, facere error nulla omnis et dolore molestiae! Nam tempore incidunt dolore aliquid?
-                </div>
-            </div>
-
-            <div class="note-card">
-                <div class="note-card-title">
-                    This is notes title
-                </div>
-                <div class="note-card-content">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quaerat officiis, molestias, commodi magnam ea inventore fugit quis, tempora in quas recusandae! Dolore maiores cupiditate eum? Nostrum tenetur animi debitis.
-                </div>
-            </div>
+            <app-note-card *ngFor="let note of notes" [note]="note"></app-note-card>
 
         </div>
         <div class="btns-container btns-centered">

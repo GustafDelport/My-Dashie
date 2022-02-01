@@ -3,7 +3,14 @@
         New Note
     </h2>
 
-    <form>
-        <input class="textbox" type="text" placeholder="Enter note title...">
+    <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
+        <input class="textbox" ngModel name="title" type="text" placeholder="Enter note title..." required>
+        <textarea class="textarea" ngModel name="content" placeholder="Enter note content..."></textarea>
+
+        <div class="btns-container">
+            <a class="btn" routerLink="../">Cancel</a>
+            <button class="btn align-end">Create Note</button>
+        </div>
+        
     </form>
 </div>
