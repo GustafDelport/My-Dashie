@@ -3,24 +3,16 @@
         Add Bookmark
     </h2>
 
-    <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
+    <form #form="ngForm" ngNativeValidate (ngSubmit)="onFormSubmit(form)">
         
         <div class="form-field">
             <label class="form-label">Name</label>
-            <input class="textbox" ngModel #textField="ngModel" name="name" type="text" placeholder="e.g Google" required minlength="3">
-            <ng-container *ngIf="showValidationErrors && textField.invalid">
-                <p *ngIf="textField?.errors?.['required']">*Please enter text for this todo</p>
-                <p *ngIf="textField?.errors?.['minlength']">Text must be at least 3 characters </p>
-            </ng-container>
+            <input class="textbox" ngModel #textField="ngModel" name="name" type="text" placeholder="e.g Google">
         </div>
 
         <div class="form-field">
             <label class="form-label">URL</label>
-            <input class="textbox" ngModel #textField="ngModel" name="url" type="url" placeholder="e.g. http://google.com" required minlength="3">
-            <ng-container *ngIf="showValidationErrors && textField.invalid">
-                <p *ngIf="textField?.errors?.['required']">*Please enter text for this todo</p>
-                <p *ngIf="textField?.errors?.['minlength']">Text must be at least 3 characters </p>
-            </ng-container>
+            <input class="textbox" ngModel #textField="ngModel" name="url" type="url" placeholder="e.g. http://google.com" required>
         </div>
         
         <div class="btns-container">

@@ -13,21 +13,15 @@ export class AddBookmarkComponent implements OnInit {
 
   bookmark: Bookmark;
 
-  showValidationErrors: boolean;
-
   constructor(private router: Router, private bookmarkService: BookmarkService) { }
 
   ngOnInit(): void {
   }
 
   onFormSubmit(form: NgForm){
-
-    if (form.invalid) {return this.showValidationErrors = true}
-    else {
-      const bookmark = new Bookmark(form.value.name,form.value.url);
-      this.bookmarkService.addBookmark(bookmark);
-      this.router.navigateByUrl('/todos');
-      return this.showValidationErrors = false
-    }
+    const {name, url} = form.value;
+    const bookmark = new Bookmark(name, url)
+    this.bookmarkService.addBookmark(bookmark);
+    this.router.navigateByUrl('/bookmarks');
   }
 }
