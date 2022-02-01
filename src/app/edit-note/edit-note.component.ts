@@ -17,6 +17,8 @@ export class EditNoteComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private noteService: NoteService, private router: Router) { }
 
+
+  //listens to url changes with id param
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       const idParam = paramMap.get('id');
