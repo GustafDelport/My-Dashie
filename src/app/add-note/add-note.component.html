@@ -4,9 +4,18 @@
     </h2>
 
     <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
-        <input class="textbox" ngModel name="title" type="text" placeholder="Enter note title..." required>
-        <textarea class="textarea" ngModel name="content" placeholder="Enter note content..."></textarea>
-
+        <input class="textbox" ngModel #titleField="ngModel" name="title" type="text" placeholder="Enter note title..." required minlength="3">
+        <div class="form-field">
+            <ng-container *ngIf="showValidationErrors && titleField.invalid">
+                <p *ngIf="titleField?.errors?.['required']">*Please enter a note title</p>
+                <p *ngIf="titleField?.errors?.['minlength']">Title must be at least 3 characters </p>
+            </ng-container>
+        </div>
+        
+        <div class="form-field">
+            <textarea class="textarea" ngModel name="content" placeholder="Enter note content..."></textarea>
+        </div>
+        
         <div class="btns-container">
             <a class="btn" routerLink="../">Cancel</a>
             <button class="btn align-end">Create Note</button>

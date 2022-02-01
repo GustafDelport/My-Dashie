@@ -26,6 +26,10 @@ h2.is-bold{
     letter-spacing: -2px;
 }
 
+a{ 
+    text-decoration: none;
+}
+
 .container{
     max-width: 850px;
     margin: auto;
@@ -79,11 +83,13 @@ h2.is-bold{
     backdrop-filter: blur(20px);
 }
 
+.form-field{
+    margin-bottom: 20px;
+}
+
 .textbox, .textarea {
     font-size: 18px;
     font-family: inherit;
-
-    margin-bottom: 20px;
 
     width: 100%;
 

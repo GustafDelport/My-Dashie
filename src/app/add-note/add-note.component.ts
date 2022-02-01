@@ -11,15 +11,22 @@ import { NoteService } from '../shared/note.service';
 })
 export class AddNoteComponent implements OnInit {
 
+  showValidationErrors: Boolean;
+
   constructor(private noteService: NoteService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onFormSubmit(form: NgForm){
-    const note = new Note(form.value.title, form.value.content);
-    this.noteService.addNote(note);
-    this.router.navigateByUrl("/notes");
-  }
 
+    if (form.invalid) {return this.showValidationErrors = true}
+    else {
+       
+       const note = new Note(form.value.title, form.value.content);
+       this.noteService.addNote(note);
+       this.router.navigateByUrl("/notes");
+       return this.showValidationErrors = false
+      }
+  }
 }
