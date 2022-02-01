@@ -8,7 +8,7 @@ export class BookmarkService {
 
   bookmarks: Bookmark[] = [
     new Bookmark('Google', 'http://google.com'),
-    new Bookmark('Pizza Hut', 'https://pornhub.com'),
+    // new Bookmark('Pizza Hut', 'https://pornhub.com'),
     new Bookmark('Wikipedia', 'http://wikipedia.org'),
     
   ]
