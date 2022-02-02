@@ -27,7 +27,7 @@
     cursor: pointer;
 
     i{
-        color: #222;
+        color: rgb(255, 255, 255);
     }
 
     transition: all 0.2s ease-out;
@@ -62,15 +62,15 @@
 }
 
 .bookmarks-tab .tab-tile::before{
-    background: linear-gradient(45deg, #f8b5a5, #e2d2fd );
+    background: linear-gradient(45deg, #666363, #1a181d );
 }
 
 .todos-tab .tab-tile::before{
-    background: linear-gradient(45deg, #a2ffff, #ffbdde );
+    background: linear-gradient(45deg, #666363, #1a181d );
 }
 
 .notes-tab .tab-tile::before{
-    background: linear-gradient(45deg, #d2cdff, #5fffbc );
+    background: linear-gradient(45deg, #666363, #1a181d );
 }
 
 .tab-tile:hover::before{
