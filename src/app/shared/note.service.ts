@@ -57,7 +57,7 @@ export class NoteService implements OnDestroy{
   saveState(){
     //saves to localStorage
     localStorage.setItem('notes', JSON.stringify(this.notes));
-
+    
     //change yo mongoDB later
   }
 
