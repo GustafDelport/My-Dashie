@@ -5,9 +5,10 @@ export class Bookmark {
     name: string
     url: URL
 
-    constructor(_id: string, name: string, url: string){
+    constructor(name: string, url: string){
         this.url = new URL(url)
-        this._id = _id
+        this._id = uuidv4()
+        
         if (!name) {
             name = this.url.hostname
         }

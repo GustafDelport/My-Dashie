@@ -5,8 +5,9 @@ export class Todo {
     completed: boolean
     text: string
 
-    constructor(_id: string , text: string, completed: boolean) {
-        this._id = _id
+    constructor(text: string, completed: boolean) {
+        
+        this._id = uuidv4()
         this.completed = completed
         this.text= text
     }

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../shared/notification.service';
 import { Todo } from '../shared/todo.model';
 import { TodoService } from '../shared/todo.service';
-import {v4 as uuidv4} from 'uuid'
 
 @Component({
   selector: 'app-add-todo',
@@ -26,7 +25,7 @@ export class AddTodoComponent implements OnInit {
   onFormSubmit(form: NgForm){
     if (form.invalid) {return this.showValidationErrors = true}
     else {
-      const todo = new Todo(uuidv4(),form.value.text,false);
+      const todo = new Todo(form.value.text,false);
 
       this.todoService.addTodo(todo).subscribe();
 
