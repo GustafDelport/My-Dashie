@@ -24,11 +24,12 @@ export class BookmarkService {
     return this.http.get<Bookmark>(`${this.ROOT_URL}/get/${id}`)
   }
 
-  //up until here i am done
+  
   addBookmark(bookmark: Bookmark): Observable<Bookmark> {
     return this.http.post<Bookmark>(`${this.ROOT_URL}/add`,bookmark)
   }
 
+  //up until here i am done
   updateBookmark(id: string, updatedFields: Partial<Bookmark>){
     const bookmark = this.getBookmark(id);
     Object.assign(bookmark,updatedFields);

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Bookmark } from '../shared/bookmark.model';
 import { BookmarkService } from '../shared/bookmark.service';
 import { NotificationService } from '../shared/notification.service';
+import {v4 as uuidv4} from 'uuid'
 
 @Component({
   selector: 'app-add-bookmark',
@@ -13,6 +14,7 @@ import { NotificationService } from '../shared/notification.service';
 export class AddBookmarkComponent implements OnInit {
 
   bookmark: Bookmark;
+  postID;
 
   constructor(
     private router: Router, 
@@ -25,9 +27,11 @@ export class AddBookmarkComponent implements OnInit {
   onFormSubmit(form: NgForm){
     const {name, url} = form.value;
 
-    const bookmark = new Bookmark(name, url)
+    const bookmark = new Bookmark(uuidv4(),name, url)
 
-    this.bookmarkService.addBookmark(bookmark);
+    this.bookmarkService.addBookmark(bookmark).subscribe(data => {
+      //console.log(data);
+    });
 
     this.router.navigateByUrl('/bookmarks');
     this.notificationService.show("Bookmark was added!",1000);
