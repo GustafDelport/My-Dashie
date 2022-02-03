@@ -20,6 +20,7 @@ import { AddBookmarkComponent } from './add-bookmark/add-bookmark.component';
 import { ManageBookmarksComponent } from './manage-bookmarks/manage-bookmarks.component';
 import { EditBookmarkComponent } from './edit-bookmark/edit-bookmark.component';
 import { NotificationComponent } from './notification/notification.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { NotificationComponent } from './notification/notification.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

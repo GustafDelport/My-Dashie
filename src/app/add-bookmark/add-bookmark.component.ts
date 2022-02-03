@@ -24,8 +24,11 @@ export class AddBookmarkComponent implements OnInit {
 
   onFormSubmit(form: NgForm){
     const {name, url} = form.value;
+
     const bookmark = new Bookmark(name, url)
+
     this.bookmarkService.addBookmark(bookmark);
+
     this.router.navigateByUrl('/bookmarks');
     this.notificationService.show("Bookmark was added!",1000);
   }
