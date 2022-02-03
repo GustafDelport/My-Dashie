@@ -64,8 +64,6 @@ export class BookmarkService implements OnDestroy {
         return value;
       });
 
-
-
       this.bookmarks.length = 0 //clears array while keeping reference.
       this.bookmarks.push(...bookmarksInStorage);
 
