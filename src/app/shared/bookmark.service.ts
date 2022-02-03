@@ -7,6 +7,7 @@ import { Bookmark } from './bookmark.model';
 })
 export class BookmarkService implements OnDestroy {
 
+  //test
   bookmarks: Bookmark[] = []
 
   storageListenSub: Subscription;
