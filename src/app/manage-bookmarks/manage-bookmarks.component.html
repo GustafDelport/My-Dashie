@@ -3,7 +3,7 @@
         <p class="sidebar-heading">Your Bookmarks</p>
 
         <div class="sidebar-items">
-            <a [routerLink]="[bookmark.id]" routerLinkActive="selected" class="sidebar-item" *ngFor="let bookmark of bookmarks">{{bookmark.name}}</a>
+            <a [routerLink]="[bookmark._id]" routerLinkActive="selected" class="sidebar-item" *ngFor="let bookmark of bookmarks">{{bookmark.name}}</a>
         </div>
     </div>
 

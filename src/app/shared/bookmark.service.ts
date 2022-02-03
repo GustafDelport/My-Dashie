@@ -1,76 +1,36 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription, tap } from 'rxjs';
 import { Bookmark } from './bookmark.model';
+import {HttpClient} from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookmarkService implements OnDestroy {
+export class BookmarkService {
 
-  //test
-  bookmarks: Bookmark[] = []
+  readonly ROOT_URL;
 
-  storageListenSub: Subscription;
-
-  constructor() {
-    this.loadState();
-
-    this.storageListenSub = fromEvent(window, 'storage')
-      .subscribe((event: StorageEvent) => {
-        if (event.key === 'bookmarks') {this.loadState();}
-      })
+  constructor(private http: HttpClient) {
+    this.ROOT_URL = 'http://localhost:5000/bookmark';
    }
 
-  ngOnDestroy(): void {
-    if (this.storageListenSub) this.storageListenSub.unsubscribe();
+  getBookmarks(): Observable<Bookmark []> {
+    return this.http.get<Bookmark []>(`${this.ROOT_URL}/get`)
   }
 
-  getBookmarks(){
-    return this.bookmarks;
+  getBookmark (id: string): Observable<Bookmark> {
+    return this.http.get<Bookmark>(`${this.ROOT_URL}/get/${id}`)
+  }
+  
+  addBookmark(bookmark: Bookmark): Observable<Bookmark> {
+    return this.http.post<Bookmark>(`${this.ROOT_URL}/add`,bookmark)
   }
 
-  getBookmark(id: string){
-    return this.bookmarks.find(b => b.id === id);
+  updateBookmark(id: string, bookmark: Bookmark){
+    return this.http.patch<Bookmark>(`${this.ROOT_URL}/update/${id}`,bookmark)
   }
 
-  addBookmark(bookmark: Bookmark) {
-    this.bookmarks.push(bookmark);
-    this.saveState();
-  }
-
-  updateBookmark(id: string, updatedFields: Partial<Bookmark>){
-    const bookmark = this.getBookmark(id);
-    Object.assign(bookmark,updatedFields);
-    this.saveState();
-  }
-
-  deleteBookmark(id: string){
-    const bookmarkIdex = this.bookmarks.findIndex(b => b.id === id);
-    if (bookmarkIdex == -1) return;
-
-    this.bookmarks.splice(bookmarkIdex,1);
-    this.saveState();
-  }
-
-  saveState(){
-    //saves to localStorage
-    localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
-  }
-
-  loadState() {
-    //Retrieves from localStorage
-    try {
-      const bookmarksInStorage = JSON.parse(localStorage.getItem('bookmarks'), (key, value) => {
-        if (key == 'url') return new URL(value);
-        return value;
-      });
-
-      this.bookmarks.length = 0 //clears array while keeping reference.
-      this.bookmarks.push(...bookmarksInStorage);
-
-    } catch (e) {
-      console.log('error retrieving bookmarks from storage');
-      console.log(e);
-    }
+  deleteBookmark(id: string): Observable<Bookmark>{
+    return this.http.delete<Bookmark>(`${this.ROOT_URL}/delete/${id}`)
   }
 }

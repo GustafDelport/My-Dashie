@@ -1,73 +1,36 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { Todo } from './todo.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService implements OnDestroy{
+export class TodoService{
 
-  todos: Todo[] = []
+  readonly ROOT_URL;
 
-  storageListenSub: Subscription;
-
-  constructor() { 
-    this.loadState();
-
-    this.storageListenSub = fromEvent(window, 'storage')
-      .subscribe((event: StorageEvent) => {
-        if (event.key === 'todos') {this.loadState();}
-      })
-  }
-  
-  ngOnDestroy(): void {
-    if (this.storageListenSub) this.storageListenSub.unsubscribe();
+  constructor(private http: HttpClient) { 
+    this.ROOT_URL = 'http://localhost:5000/todo';
   }
 
-  getTodos(){
-    return this.todos;
+  getTodos(): Observable<Todo []>{
+    return this.http.get<Todo []>(`${this.ROOT_URL}/get`)
   }
 
-  getTodo(id: string){
-    return this.todos.find(t => t.id === id);
+  getTodo(id: string): Observable<Todo>{
+    return this.http.get<Todo>(`${this.ROOT_URL}/get/${id}`)
   }
 
-  addTodo(todo: Todo) {
-    this.todos.push(todo);
-    this.saveState();
+  addTodo(todo: Todo): Observable<Todo> {
+    return this.http.post<Todo>(`${this.ROOT_URL}/add`,todo)
   }
 
-  updateTodo(id: string, updateTodoFields: Partial<Todo>){
-    const todo = this.getTodo(id);
-    Object.assign(todo,updateTodoFields);
-    this.saveState();
+  updateTodo(id: string, todo: Todo): Observable<Todo>{
+    return this.http.patch<Todo>(`${this.ROOT_URL}/update/${id}`,todo)
   }
 
-  deleteTodo(id: string){
-    const todoIdex = this.todos.findIndex(t => t.id === id);
-    if (todoIdex == -1) return;
-
-    this.todos.splice(todoIdex,1);
-    this.saveState();
-  }
-
-  //Persistent Data
-  saveState(){
-    //saves to localStorage
-    localStorage.setItem('todos', JSON.stringify(this.todos));
-  }
-
-  loadState() {
-    //Retrieves from localStorage
-    try {
-      const todosInStorage = JSON.parse(localStorage.getItem('todos'));
-
-      this.todos.length = 0 //clears array while keeping reference.
-      this.todos.push(...todosInStorage);
-
-    } catch (e) {
-      console.log('error retrieving todos from storage');
-      console.log(e);
-    }
+  deleteTodo(id: string): Observable<Todo>{
+    return this.http.delete<Todo>(`${this.ROOT_URL}/delete/${id}`)
   }
 }

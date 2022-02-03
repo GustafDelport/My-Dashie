@@ -1,79 +1,37 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { Note } from './note.model';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class NoteService implements OnDestroy{
+export class NoteService{
 
-  notes: Note[] = [];
+  readonly ROOT_URL;
 
-  storageListenSub: Subscription;
-
-  constructor() {
-    this.loadState();
-
-    this.storageListenSub = fromEvent(window, 'storage')
-      .subscribe((event: StorageEvent) => {
-        if (event.key === 'notes') {this.loadState();}
-      })
+  constructor(private http: HttpClient) {
+    this.ROOT_URL = 'http://localhost:5000/note';
   }
 
-  ngOnDestroy(): void {
-    if (this.storageListenSub) this.storageListenSub.unsubscribe();
+  getNotes(): Observable<Note []>{
+    return this.http.get<Note []>(`${this.ROOT_URL}/get`)
   }
 
-  getNotes(){
-    return this.notes;
+  getNote(id: string): Observable<Note>{
+    return this.http.get<Note>(`${this.ROOT_URL}/get/${id}`)
   }
 
-  getNote(id: string){
-    return this.notes.find(n => n.id === id);
+  addNote(note: Note): Observable<Note> {
+    return this.http.post<Note>(`${this.ROOT_URL}/add`,note)
   }
 
-  addNote(note: Note) {
-    this.notes.push(note);
-    this.saveState();
+  updateNote(id: string, note: Note): Observable<Note>{
+    return this.http.patch<Note>(`${this.ROOT_URL}/update/${id}`,note)
   }
 
-  updateNote(id: string, updatedFields: Partial<Note>){
-    const note = this.getNote(id);
-    Object.assign(note,updatedFields);
-    this.saveState();
-  }
-
-  deleteNote(id: string){
-    const noteIdex = this.notes.findIndex(n => n.id === id);
-    if (noteIdex == -1) return;
-
-    this.notes.splice(noteIdex,1);
-    this.saveState();
-  }
-
-
-  //Persistent Data
-  saveState(){
-    //saves to localStorage
-    localStorage.setItem('notes', JSON.stringify(this.notes));
-    
-    //change yo mongoDB later
-  }
-
-  loadState() {
-    //Retrieves from localStorage
-    try {
-      const notesInStorage = JSON.parse(localStorage.getItem('notes'));
-
-      this.notes.length = 0 //clears array while keeping reference.
-      this.notes.push(...notesInStorage);
-
-    } catch (e) {
-      console.log('error retrieving notes from storage');
-      console.log(e);
-    }
-
-    //change yo mongoDB later
+  deleteNote(id: string): Observable<Note>{
+    return this.http.delete<Note>(`${this.ROOT_URL}/delete/${id}`)
   }
 }

@@ -1,9 +1,13 @@
 import {v4 as uuidv4} from 'uuid'
 
 export class Note {
-    id: string
+    _id: string
+    title: string
+    content: string
 
-    constructor(public title: string,public content: string){
-        this.id = uuidv4()
+    constructor(title: string, content: string){
+        this._id = uuidv4()
+        this.title = title,
+        this.content = content
     }
 }

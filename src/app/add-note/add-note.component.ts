@@ -28,7 +28,9 @@ export class AddNoteComponent implements OnInit {
     else {
        
        const note = new Note(form.value.title, form.value.content);
-       this.noteService.addNote(note);
+
+       this.noteService.addNote(note).subscribe();
+
        this.router.navigateByUrl("/notes");
        this.notificationService.show("Note was added!",1000);
        return this.showValidationErrors = false

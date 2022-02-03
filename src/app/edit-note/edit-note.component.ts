@@ -27,24 +27,31 @@ export class EditNoteComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       const idParam = paramMap.get('id');
-      this.note = this.noteService.getNote(idParam);
+      this.noteService.getNote(idParam).subscribe({
+        next: b => this.note = b
+      })
     })
   }
 
   onFormSubmit(form: NgForm){
     if (form.invalid) {return this.showValidationErrors = true}
     else {
-       this.noteService.updateNote(this.note.id, form.value);
-       this.router.navigateByUrl("/notes")
-       this.notificationService.show("Note Updated!",1000);
-       return this.showValidationErrors = false
+      this.note.title = form.value.title
+      this.note.content = form.value.content
+
+      this.noteService.updateNote(this.note._id, this.note).subscribe();
+
+      this.router.navigateByUrl("/notes")
+      this.notificationService.show("Note Updated!",1000);
+      return this.showValidationErrors = false
       }
 
       
   }
 
   deleteNote(){
-    this.noteService.deleteNote(this.note.id);
+    this.noteService.deleteNote(this.note._id).subscribe();
+    
     this.router.navigateByUrl('/notes')
     this.notificationService.show("Note was deleted!",1000);
   }

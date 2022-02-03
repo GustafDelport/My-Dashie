@@ -23,24 +23,27 @@ export class EditBookmarkComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       const idParam = paramMap.get('id');
-      this.bookmark = this.bookmarkService.getBookmark(idParam);
+
+      this.bookmarkService.getBookmark(idParam).subscribe({
+        next: b => this.bookmark = b
+      })
     })
   }
 
   onFormSubmit(form: NgForm){
-      //passing a object and creating a new url to enable icon updates
-      const {name, url} = form.value;
-      this.bookmarkService.updateBookmark(this.bookmark.id, {
-        name,
-        url: new URL(url)
-      });
+      this.bookmark.name = form.value.name;
+      this.bookmark.url = new URL(form.value.url);
+
+      this.bookmarkService.updateBookmark(this.bookmark._id,this.bookmark).subscribe();
 
       this.notificationService.show("Bookmark Updated!",1000);
   }
 
   delete(){
-    this.bookmarkService.deleteBookmark(this.bookmark.id);
-    this.router.navigate(['../'], {relativeTo: this.route});
+    // console.log(this.bookmark._id);
+    this.bookmarkService.deleteBookmark(this.bookmark._id).subscribe();
+
+    this.router.navigateByUrl('/bookmarks');
     this.notificationService.show("Bookmark was deleted!",1000);
   }
 

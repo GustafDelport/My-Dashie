@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { NotificationService } from '../shared/notification.service';
 import { Todo } from '../shared/todo.model';
 import { TodoService } from '../shared/todo.service';
+import {v4 as uuidv4} from 'uuid'
 
 @Component({
   selector: 'app-edit-todo',
@@ -25,7 +26,11 @@ export class EditTodoComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       const idParam = paramMap.get('id');
-      this.todo = this.todoService.getTodo(idParam);
+
+      this.todoService.getTodo(idParam).subscribe({
+        next: b => this.todo = b
+      })
+
     })
   }
 
@@ -34,11 +39,15 @@ export class EditTodoComponent implements OnInit {
       return this.showValidationErrors = true
     }
     else {
-       this.todoService.updateTodo(this.todo.id, form.value);
-       this.router.navigateByUrl("/todos");
-       this.notificationService.show("Todo Updated!",1000);
-       return this.showValidationErrors = false
+        this.todo.text = form.value.text
+
+        this.todoService.updateTodo(this.todo._id, this.todo).subscribe();
+
+        this.router.navigateByUrl("/todos");
+        this.notificationService.show("Todo Updated!",1000);
+
+        return this.showValidationErrors = false
+
       }
   }
-
 }

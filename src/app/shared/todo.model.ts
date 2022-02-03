@@ -1,10 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
 
 export class Todo {
-    id: string
+    _id: string
     completed: boolean
+    text: string
 
-    constructor(public text: string) {
-        this.id = uuidv4()
+    constructor(text: string, completed: boolean) {
+        
+        this._id = uuidv4()
+        this.completed = completed
+        this.text= text
     }
 }
