@@ -29,9 +29,7 @@ export class AddBookmarkComponent implements OnInit {
 
     const bookmark = new Bookmark(uuidv4(),name, url)
 
-    this.bookmarkService.addBookmark(bookmark).subscribe(data => {
-      //console.log(data);
-    });
+    this.bookmarkService.addBookmark(bookmark).subscribe();
 
     this.router.navigateByUrl('/bookmarks');
     this.notificationService.show("Bookmark was added!",1000);

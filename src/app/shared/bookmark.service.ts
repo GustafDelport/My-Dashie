@@ -30,17 +30,11 @@ export class BookmarkService {
   }
 
   //up until here i am done
-  updateBookmark(id: string, updatedFields: Partial<Bookmark>){
-    const bookmark = this.getBookmark(id);
-    Object.assign(bookmark,updatedFields);
+  updateBookmark(id: string, bookmark: Bookmark){
+    return this.http.patch<Bookmark>(`${this.ROOT_URL}/update/${id}`,bookmark)
   }
 
-  deleteBookmark(id: string){
-    const bookmarkIdex = this.bookmarks.findIndex(b => b._id === id);
-    if (bookmarkIdex == -1) return;
-
-    this.bookmarks.splice(bookmarkIdex,1);
-
-    //save to api here
+  deleteBookmark(id: string): Observable<Bookmark>{
+    return this.http.delete<Bookmark>(`${this.ROOT_URL}/delete/${id}`)
   }
 }
