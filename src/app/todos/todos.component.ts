@@ -32,25 +32,34 @@ export class TodosComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.todos = this.todoService.getTodos();
+    this.todoService.getTodos().subscribe({
+      next: t => this.todos = t
+    })
   }
 
   toggleCompleted(todo: Todo){
     //sets the completed status to what ever it is currently not
-    this.todoService.updateTodo(todo.id,{completed: !todo.completed})
+    todo.completed = !todo.completed
+
+    this.todoService.updateTodo(todo._id,todo).subscribe()
   }
 
   onEditClick(todo: Todo){
-    this.router.navigate(['/todos',todo.id]);
+    this.router.navigate(['/todos',todo._id]);
   }
 
   onDeleteClick(todo: Todo){
-    this.todoService.deleteTodo(todo.id);
+    this.todoService.deleteTodo(todo._id).subscribe();
+    this.router.navigateByUrl('/todos');
     this.notificationService.show("Todo was deleted!",1000);
+
+    this.todoService.getTodos().subscribe({
+      next: t => this.todos = t
+    })
   }
 
   trackByID(index, item: Todo) {
-    return item.id;
+    return item._id;
   }
 
 }

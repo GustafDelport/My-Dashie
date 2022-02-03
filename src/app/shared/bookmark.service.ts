@@ -10,8 +10,6 @@ export class BookmarkService {
 
   readonly ROOT_URL;
 
-  bookmarks: Bookmark[] = []
-
   constructor(private http: HttpClient) {
     this.ROOT_URL = 'http://localhost:5000/bookmark';
    }
@@ -23,13 +21,11 @@ export class BookmarkService {
   getBookmark (id: string): Observable<Bookmark> {
     return this.http.get<Bookmark>(`${this.ROOT_URL}/get/${id}`)
   }
-
   
   addBookmark(bookmark: Bookmark): Observable<Bookmark> {
     return this.http.post<Bookmark>(`${this.ROOT_URL}/add`,bookmark)
   }
 
-  //up until here i am done
   updateBookmark(id: string, bookmark: Bookmark){
     return this.http.patch<Bookmark>(`${this.ROOT_URL}/update/${id}`,bookmark)
   }
